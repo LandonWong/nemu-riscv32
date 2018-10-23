@@ -5,23 +5,13 @@
 void init_mmio();
 void init_device();
 work_mode_t init_monitor(int, char *[]);
-void gdb_mainloop();
-void qemu_diff();
 void cpu_exec(uint64_t);
 
 int main(int argc, char *argv[]) {
   init_mmio();
   /* Initialize the monitor. */
-  work_mode_t mode = init_monitor(argc, argv);
-  if(mode & MODE_BATCH) {
-	init_device();
-	if(mode == MODE_DIFF) {
-	  qemu_diff();
-	} else {
-	  cpu_exec(-1);
-	}
-  } else {
-	gdb_mainloop();
-  }
+  init_monitor(argc, argv);
+  init_device();
+  cpu_exec(-1);
   return 0;
 }

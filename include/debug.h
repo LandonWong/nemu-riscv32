@@ -17,12 +17,7 @@ extern void print_registers(uint32_t instr);
 #define eprintf(...) fprintf(stderr, ## __VA_ARGS__)
 
 #define Abort() do { \
-  extern jmp_buf gdb_mode_top_caller; \
-  if(work_mode == MODE_GDB) { \
-	longjmp(gdb_mode_top_caller, 1); \
-  } else { \
-	abort(); \
-  } \
+  abort(); \
 } while(0)
 
 // we are properly doing diff testing in batch_mode, so do not Log in batch_mode

@@ -14,19 +14,14 @@ AR = ar
 INCLUDES  = $(addprefix -I, $(INC_DIR))
 CFLAGS   += -O2 -MMD -Wall -Werror -ggdb -fno-strict-aliasing $(INCLUDES)
 
-# CFLAGS += -D__ARCH_MIPS32_R1__ 
-# CFLAGS += -D__ARCH_LOONGSON__ 
 CFLAGS += -D__ARCH_RISCV__ 
 
-# CFLAGS += -DENABLE_PERF
-
-CFLAGS += -DENABLE_DELAYSLOT
 CFLAGS += -DENABLE_SEGMENT # prior to PAGING
 CFLAGS += -DENABLE_PAGING
 
 # enable interrupt will lose about 400 marks
-CFLAGS += -DENABLE_INTR
-CFLAGS += -DENABLE_EXCEPTION
+# CFLAGS += -DENABLE_INTR
+# CFLAGS += -DENABLE_EXCEPTION
 # CFLAGS += -DENABLE_CAE_CHECK # consistence after exception
 
 CFLAGS += -DDEBUG

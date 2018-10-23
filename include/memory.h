@@ -69,10 +69,7 @@ static inline vaddr_t iomap(vaddr_t vaddr) {
 
 enum { MMU_LOAD, MMU_STORE };
 
-static inline vaddr_t prot_addr(vaddr_t addr, bool rwbit) {
-#ifdef ENABLE_SEGMENT
-  addr += cpu.base;
-#endif
+static inline vaddr_t prot_addr(vaddr_t addr) {
   if(is_unmapped(addr)) {
 	//  0x80000000 -> 0x00000000
 	//  0x90000000 -> 0x10000000
@@ -80,12 +77,7 @@ static inline vaddr_t prot_addr(vaddr_t addr, bool rwbit) {
 	//  0xB0000000 -> 0x10000000
 	return iomap(addr);
   } else {
-#if defined ENABLE_PAGING
-	vaddr_t paddr = page_translate(addr, rwbit);
-	return paddr;
-#else
 	return addr;
-#endif
   }
 }
 
