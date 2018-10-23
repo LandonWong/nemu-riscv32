@@ -46,7 +46,7 @@ public:
   operator T*()
   { return static_cast<T*>(ptr); }
 
-  bool operator !() const { return ptr != NULL; }
+  bool operator !() const { return ptr == NULL; }
 };
 
 #else
