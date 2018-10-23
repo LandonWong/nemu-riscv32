@@ -317,7 +317,11 @@ void cpu_exec(uint64_t n) {
 
     asm_buf_p += dsprintf(asm_buf_p, "%08x    ", inst.val);
 
-#include "exec-handlers.h"
+#if defined __ARCH_MIPS32_R1__ || defined __ARCH_LOONGSON__
+#include "handlers-mips.h"
+#elif defined __ARCH_RISCV__
+#include "handlers-riscv.h"
+#endif
 
 	if(cpu.is_delayslot) {
 	  cpu.need_br = true;

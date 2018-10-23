@@ -56,48 +56,48 @@
  */
 
 typedef struct {
-	uint32_t IE   : 1;
-	uint32_t EXL  : 1;
-	uint32_t ERL  : 1;
-	uint32_t R0   : 1;
+  uint32_t IE   : 1;
+  uint32_t EXL  : 1;
+  uint32_t ERL  : 1;
+  uint32_t R0   : 1;
 
-	uint32_t UM   : 1;
-	uint32_t UX   : 1;
-	uint32_t SX   : 1;
-	uint32_t KX   : 1;
+  uint32_t UM   : 1;
+  uint32_t UX   : 1;
+  uint32_t SX   : 1;
+  uint32_t KX   : 1;
 
-	uint32_t IM   : 8;
+  uint32_t IM   : 8;
 
-	uint32_t Impl : 2;
-	uint32_t _0   : 1;
-	uint32_t NMI  : 1;
-	uint32_t SR   : 1;
-	uint32_t TS   : 1;
+  uint32_t Impl : 2;
+  uint32_t _0   : 1;
+  uint32_t NMI  : 1;
+  uint32_t SR   : 1;
+  uint32_t TS   : 1;
 
-	uint32_t BEV  : 1;
-	uint32_t PX   : 1;
+  uint32_t BEV  : 1;
+  uint32_t PX   : 1;
 
-	uint32_t MX   : 1;
-	uint32_t RE   : 1;
-	uint32_t FR   : 1;
-	uint32_t RP   : 1;
-	uint32_t CU   : 4;
+  uint32_t MX   : 1;
+  uint32_t RE   : 1;
+  uint32_t FR   : 1;
+  uint32_t RP   : 1;
+  uint32_t CU   : 4;
 } cp0_status_t;
 
 typedef struct {
-	uint32_t _5 : 2;
-	uint32_t ExcCode : 5;
-	uint32_t _4 : 1;
-	uint32_t IP : 8;
+  uint32_t _5 : 2;
+  uint32_t ExcCode : 5;
+  uint32_t _4 : 1;
+  uint32_t IP : 8;
 
-	uint32_t _3 : 6;
-	uint32_t WP : 1;
-	uint32_t IV : 1;
+  uint32_t _3 : 6;
+  uint32_t WP : 1;
+  uint32_t IV : 1;
 
-	uint32_t _2 : 4;
-	uint32_t CE : 2;
-	uint32_t _1 : 1;
-	uint32_t BD : 1;
+  uint32_t _2 : 4;
+  uint32_t CE : 2;
+  uint32_t _1 : 1;
+  uint32_t BD : 1;
 } cp0_cause_t;
 
 typedef struct {
@@ -112,14 +112,14 @@ typedef struct {
   uint32_t K0   : 3; // kseg0 coherency algorithms
   uint32_t _0   : 4; // must be zero
   uint32_t MT   : 3; // MMU type
-                     // 0 for none
-					 // 1 for standard TLB
-					 // 2 xxx, 3 xxx
+  // 0 for none
+  // 1 for standard TLB
+  // 2 xxx, 3 xxx
   uint32_t AR   : 3; // 0 for revision 1
   uint32_t AT   : 2; // 0 for mips32,
-                     // 1 for mips64 with access only to 32-bit seg
-                     // 2 for mips64 with all access to 32-bit seg
-					 // 3 reserved
+  // 1 for mips64 with access only to 32-bit seg
+  // 2 for mips64 with all access to 32-bit seg
+  // 3 reserved
   uint32_t BE   : 1; // 0 for little endian, 1 for big endian
   uint32_t Impl : 15;
   uint32_t M    : 1; // donate that config1 impled at sel 1
@@ -135,29 +135,29 @@ typedef struct {
   uint32_t PC : 1; // performance counter present bit
   uint32_t MD : 1; // not used on mips32 processor
   uint32_t C2 : 1; // coprocessor present bit
-  
+
   uint32_t DA : 3; // dcache associativity
-                   // 0 for direct mapped
-				   // 2^(DA) ways
-				   // ---------------------------
+  // 0 for direct mapped
+  // 2^(DA) ways
+  // ---------------------------
   uint32_t DL : 3; // dcache line size: 
-                   // 0 for no icache, 7 reserved
-				   // othwise: 2^(DL + 1) bytes
-				   // ---------------------------
+  // 0 for no icache, 7 reserved
+  // othwise: 2^(DL + 1) bytes
+  // ---------------------------
   uint32_t DS : 3; // dcache sets per way:
-                   // 2^(IS + 8)
-				   // ---------------------------
+  // 2^(IS + 8)
+  // ---------------------------
   uint32_t IA : 3; // icache associativity
-                   // 0 for direct mapped
-				   // 2^(IA) ways
-				   // ---------------------------
+  // 0 for direct mapped
+  // 2^(IA) ways
+  // ---------------------------
   uint32_t IL : 3; // icache line size: 
-                   // 0 for no icache, 7 reserved
-				   // othwise: 2^(IL + 1) bytes
-				   // ---------------------------
+  // 0 for no icache, 7 reserved
+  // othwise: 2^(IL + 1) bytes
+  // ---------------------------
   uint32_t IS : 3; // icache sets per way:
-                   // 2^(IS + 8)
-				   // ---------------------------
+  // 2^(IS + 8)
+  // ---------------------------
   uint32_t MMU_size : 6; // 0 to 63 indicates 1 to 64 TLB entries
   uint32_t M  : 1; // indicate config 2 is present
 } cp0_config1_t;
@@ -217,7 +217,7 @@ typedef union {
 	struct { cp0_cause_t cause;         uint32_t _13[7]; };
 	struct { vaddr_t epc;               uint32_t _14[7]; };
 	struct { cp0_prid_t prid;
-	         vaddr_t ebase;             uint32_t _15[6]; };
+	  vaddr_t ebase;             uint32_t _15[6]; };
 	struct {
 	  cp0_config_t config;
 	  cp0_config1_t config1;
@@ -269,41 +269,143 @@ typedef struct {
 #define EXC_OV      12   /* arithmetic overflow */
 #define EXC_TRAP    13   /* trap */
 
+#if defined __ARCH_MIPS32_R1__ || defined __ARCH_LOONGSON__
 
 typedef struct {
-	union {
-		uint32_t val;
-		// R-type
-		struct {
-			uint32_t func  :6;
-			uint32_t shamt :5;
-			uint32_t rd    :5;
-			uint32_t rt    :5;
-			uint32_t rs    :5;
-			uint32_t op    :6;
-		};
-
-		// I-type
-		struct {
-			uint32_t uimm   :16;
-		};
-
-		// SI-type
-		struct {
-			int32_t simm :16;
-		};
-
-		// J-type
-		struct {
-			uint32_t addr  :26;
-		};
-
-		// MFC0
-		struct {
-			uint32_t sel:3;
-		};
+  union {
+	uint32_t val;
+	// R-type
+	struct {
+	  uint32_t func  :6;
+	  uint32_t shamt :5;
+	  uint32_t rd    :5;
+	  uint32_t rt    :5;
+	  uint32_t rs    :5;
+	  uint32_t op    :6;
 	};
+
+	// I-type
+	struct {
+	  uint32_t uimm   :16;
+	};
+
+	// SI-type
+	struct {
+	  int32_t simm :16;
+	};
+
+	// J-type
+	struct {
+	  uint32_t addr  :26;
+	};
+
+	// MFC0
+	struct {
+	  uint32_t sel:3;
+	};
+  };
 } Inst; // Instruction
+
+#elif defined __ARCH_RISCV__
+
+typedef union {
+  union {
+	struct { // common
+	  uint32_t op     : 7;
+	  uint32_t rd     : 5;
+	  uint32_t func3  : 3;
+	  uint32_t rs1    : 5;
+	  uint32_t rs2    : 5;
+	  uint32_t func7  : 7;
+	};
+
+/* placeholder */
+#define __ _##__LINE__
+
+	// I-type
+	union {
+	  struct {
+		uint32_t __       : 20;
+		uint32_t imm_11_0 : 12;
+	  };
+
+	  struct {
+		uint32_t __        : 20;
+		int32_t  simm_11_0 : 12;
+	  };
+
+	  struct {
+		uint32_t __        : 20;
+		uint32_t shamt     : 5;
+	  };
+	} I;
+
+	// S-type
+	union {
+	  struct {
+		uint32_t __       : 7;
+		uint32_t imm_4_0  : 5;
+		uint32_t __       : 13;
+		uint32_t imm_11_5 : 7;
+	  };
+
+	  struct {
+		uint32_t __       : 31;
+		uint32_t simm_11  : 1;
+	  };
+	} S;
+
+	// B-type
+	union {
+	  struct {
+		uint32_t __       : 7;
+		uint32_t imm_11   : 1;
+		uint32_t imm_4_1  : 4;
+		uint32_t __       : 13;
+		uint32_t imm_10_5 : 6;
+		uint32_t imm_12   : 1;
+	  };
+
+	  struct {
+		uint32_t __     : 31;
+		int32_t simm_12 : 1;
+	  };
+	} B;
+	
+	// U-type
+	union {
+	  struct {
+		uint32_t __        : 12;
+		uint32_t imm_31_12 : 20;
+	  };
+
+	  struct {
+		uint32_t __         : 12;
+		int32_t  simm_31_12 : 20;
+	  };
+	} U;
+
+	// J-type
+	union {
+	  struct {
+		uint32_t __        : 12;
+		uint32_t imm_19_12 : 8;
+		uint32_t imm_J_11  : 1;
+		uint32_t imm_10_1  : 10;
+		uint32_t imm_20    : 1;
+	  };
+
+	  struct {
+		uint32_t __        : 31;
+		int32_t  simm_20   : 1;
+	  };
+	} J;
+  };
+#undef __
+  uint32_t val;
+} Inst;
+
+#endif
 
 extern CPU_state cpu;
 int init_cpu(vaddr_t entry);

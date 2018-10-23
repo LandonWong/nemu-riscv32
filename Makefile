@@ -15,7 +15,8 @@ INCLUDES  = $(addprefix -I, $(INC_DIR))
 CFLAGS   += -O2 -MMD -Wall -Werror -ggdb -fno-strict-aliasing $(INCLUDES)
 
 # CFLAGS += -D__ARCH_MIPS32_R1__ 
-CFLAGS += -D__ARCH_LOONGSON__ 
+# CFLAGS += -D__ARCH_LOONGSON__ 
+CFLAGS += -D__ARCH_RISCV__ 
 
 # CFLAGS += -DENABLE_PERF
 
