@@ -8,7 +8,7 @@ SHARED ?= $(BUILD_DIR)/$(NAME).a
 .DEFAULT_GOAL = app
 
 # Compilation flags
-CC = gcc
+CC = g++
 LD = $(CC)
 AR = ar
 INCLUDES  = $(addprefix -I, $(INC_DIR))
@@ -18,6 +18,7 @@ CFLAGS += -D__ARCH_RISCV__
 
 CFLAGS += -DENABLE_SEGMENT # prior to PAGING
 CFLAGS += -DENABLE_PAGING
+CFLAGS += -DENABLE_ASM_TRACER
 
 # enable interrupt will lose about 400 marks
 # CFLAGS += -DENABLE_INTR

@@ -8,6 +8,7 @@
 
 typedef struct {
   uint32_t gpr[32];
+  uint32_t csr[1 << 12];
   uint32_t hi, lo;
   vaddr_t pc;
 } CPU_state;

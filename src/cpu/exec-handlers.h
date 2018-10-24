@@ -339,7 +339,7 @@ make_exec_handler(bgeu) ({
 });
 
 make_exec_handler(fence) ({
-  assert(0 && "fence not implemented");
+  /* nothing need to be done */
 });
 
 make_exec_handler(ecall_ebreak) ({
@@ -347,27 +347,41 @@ make_exec_handler(ecall_ebreak) ({
 });
 
 make_exec_handler(csrrci) ({
-  assert(0 && "csrrci not implemented");
+  if(inst.rs1) {
+	cpu.gpr[inst.rd] = cpu.csr[inst.I.imm_11_0];
+	cpu.csr[inst.I.imm_11_0] &= ~inst.rs1;
+  }
 });
 
 make_exec_handler(csrrsi) ({
-  assert(0 && "csrrsi not implemented");
+  if(inst.rs1) {
+	cpu.gpr[inst.rd] = cpu.csr[inst.I.imm_11_0];
+	cpu.csr[inst.I.imm_11_0] |= inst.rs1;
+  }
 });
 
 make_exec_handler(csrrwi) ({
-  assert(0 && "csrrwi not implemented");
+  if(cpu.gpr[inst.rd]) {
+	cpu.gpr[inst.rd] = cpu.csr[inst.I.imm_11_0];
+	cpu.csr[inst.I.imm_11_0] = inst.rs1;
+  }
 });
 
 make_exec_handler(csrrc) ({
-  assert(0 && "csrrc not implemented");
+  cpu.gpr[inst.rd] = cpu.csr[inst.I.imm_11_0];
+  cpu.csr[inst.I.imm_11_0] &= ~cpu.gpr[inst.rs1];
 });
 
 make_exec_handler(csrrs) ({
-  assert(0 && "csrrs not implemented");
+  cpu.gpr[inst.rd] = cpu.csr[inst.I.imm_11_0];
+  cpu.csr[inst.I.imm_11_0] |= cpu.gpr[inst.rs1];
 });
 
 make_exec_handler(csrrw) ({
-  assert(0 && "csrrw not implemented");
+  if(cpu.gpr[inst.rd]) {
+	cpu.gpr[inst.rd] = cpu.csr[inst.I.imm_11_0];
+	cpu.csr[inst.I.imm_11_0] = cpu.gpr[inst.rs1];
+  }
 });
 
 #undef BRANCH_SIMM

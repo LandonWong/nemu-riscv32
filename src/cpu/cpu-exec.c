@@ -1,6 +1,7 @@
 #include <sys/time.h>
 #include <setjmp.h>
 #include <assert.h>
+#include <stdarg.h>
 
 #include "nemu.h"
 #include "device.h"
@@ -28,8 +29,6 @@ nemu_state_t nemu_state = NEMU_STOP;
 
 static uint64_t nemu_start_time = 0;
 
-char asm_buf[80], *asm_buf_p;
-
 // 1s = 10^3 ms = 10^6 us
 static uint64_t get_current_time() { // in us
   struct timeval t;
@@ -37,17 +36,27 @@ static uint64_t get_current_time() { // in us
   return t.tv_sec * 1000000 + t.tv_usec - nemu_start_time;
 }
 
-int dsprintf(char *buf, const char *fmt, ...) {
+#if defined DEBUG && defined ENABLE_ASM_TRACER
+char asm_buf[512], *asm_buf_p;
+
+int trace_append(const char *fmt, ...) {
   int len = 0;
-#if 0
   va_list ap;
   va_start(ap, fmt);
-  len = vprintf(fmt, ap);
+  asm_buf_p += (len = vsprintf(asm_buf_p, fmt, ap));
   va_end(ap);
   printf("\n");
-#endif
+
+  /* check overflow */
+  assert(asm_buf_p <= &asm_buf[sizeof(asm_buf)]);
   return len;
 }
+
+void trace_flush() {
+  asm_buf_p = asm_buf;
+  printf("%s\n", asm_buf);
+}
+#endif
 
 
 void print_registers(uint32_t instr) {
@@ -105,6 +114,7 @@ static inline uint32_t load_mem(vaddr_t addr, int len) {
 #ifdef DEBUG
   CPUAssert(addr >= 0x1000, "preventive check failed, try to load memory from addr %08x\n", addr);
 #endif
+
   uint32_t pa = prot_addr(addr);
   if(LIKELY(DDR_BASE <= pa && pa < DDR_BASE + DDR_SIZE)) {
 	// Assert(0, "addr:%08x, pa:%08x\n", addr, pa);
@@ -154,9 +164,8 @@ void cpu_exec(uint64_t n) {
 	instr_enqueue_pc(cpu.pc);
 #endif
 
-#if 0
-    asm_buf_p = asm_buf;
-    asm_buf_p += dsprintf(asm_buf_p, "%8x:    ", cpu.pc);
+#if defined DEBUG && defined ENABLE_ASM_TRACER
+    trace_append("%8x:    ", cpu.pc);
 #endif
 
 	assert((cpu.pc & 0x3) == 0);
@@ -168,13 +177,14 @@ void cpu_exec(uint64_t n) {
 	instr_enqueue_instr(inst.val);
 #endif
 
-    asm_buf_p += dsprintf(asm_buf_p, "%08x    ", inst.val);
+#if defined DEBUG && defined ENABLE_ASM_TRACER
+    trace_append("%08x    ", inst.val);
+	trace_flush();
+#endif
 
 #include "exec-handlers.h"
 
 #ifdef DEBUG
-	// if(0x60000000 <= cpu.pc && cpu.pc < 0x80000000)
-	// eprintf("%08x: %08x\n", cpu.pc, inst.val);
     if(work_mode == MODE_LOG) print_registers(inst.val);
 #endif
 
