@@ -39,7 +39,9 @@ static uint64_t get_current_time() { // in us
 #if defined DEBUG && defined ENABLE_ASM_TRACER
 char asm_buf[512], *asm_buf_p;
 
-int trace_append(const char *fmt, ...) {
+/* 1th arg: fmt, 2th arg: params */
+int __attribute__((format(printf, 1, 2)))
+  trace_append(const char *fmt, ...) {
   int len = 0;
   va_list ap;
   va_start(ap, fmt);

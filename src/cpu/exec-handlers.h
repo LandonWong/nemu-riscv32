@@ -120,129 +120,159 @@ make_exec_handler(inv) ({
 
 make_exec_handler(add) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] + cpu.gpr[inst.rs2];
+  trace_append("add\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(sub) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] - cpu.gpr[inst.rs2];
+  trace_append("sub\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(and_) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] & cpu.gpr[inst.rs2];
+  trace_append("and\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(or_) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] | cpu.gpr[inst.rs2];
+  trace_append("or\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(xor_) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] ^ cpu.gpr[inst.rs2];
+  trace_append("xor\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(slt) ({
   cpu.gpr[inst.rd] = (int32_t)cpu.gpr[inst.rs1] < (int32_t)cpu.gpr[inst.rs2];
+  trace_append("slt\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(sltu) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] < cpu.gpr[inst.rs2];
+  trace_append("sltu\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(sll) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] << (cpu.gpr[inst.rs2] & 0x1f);
+  trace_append("sll\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(srl) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] >> (cpu.gpr[inst.rs2] & 0x1f);
+  trace_append("srl\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(sra) ({
   cpu.gpr[inst.rd] = (int32_t)cpu.gpr[inst.rs1] >> (cpu.gpr[inst.rs2] & 0x1f);
+  trace_append("sra\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(mul) ({
   cpu.gpr[inst.rd] = (int64_t)(int32_t)cpu.gpr[inst.rs1] * (int64_t)(int32_t)cpu.gpr[inst.rs2];
+  trace_append("mul\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(mulh) ({
   int64_t prod = (int64_t)(int32_t)cpu.gpr[inst.rs1] * (int64_t)(int32_t)cpu.gpr[inst.rs2];
   cpu.gpr[inst.rd] = (uint32_t)(prod >> 32);
+  trace_append("mulh\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(mulhu) ({
   uint64_t prod = (uint64_t)cpu.gpr[inst.rs1] * (uint64_t)cpu.gpr[inst.rs2];
   cpu.gpr[inst.rd] = (uint32_t)(prod >> 32);
+  trace_append("mulhu\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(mulhsu) ({
   int64_t prod = (int64_t)(int32_t)cpu.gpr[inst.rs1] * (uint64_t)cpu.gpr[inst.rs2];
   cpu.gpr[inst.rd] = (uint32_t)(prod >> 32);
+  trace_append("mulhsu\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 
 make_exec_handler(div_) ({
   cpu.gpr[inst.rd] = (int32_t)cpu.gpr[inst.rs1] / (int32_t)cpu.gpr[inst.rs2];
+  trace_append("div\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(rem) ({
   cpu.gpr[inst.rd] = (int32_t)cpu.gpr[inst.rs1] % (int32_t)cpu.gpr[inst.rs2];
+  trace_append("rem\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(divu) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] / cpu.gpr[inst.rs2];
+  trace_append("divu\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 make_exec_handler(remu) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] % cpu.gpr[inst.rs2];
+  trace_append("remu\t%s,%s,%s", regs[inst.rd], regs[inst.rs1], regs[inst.rs2]);
 });
 
 
 make_exec_handler(jalr) ({
   cpu.gpr[inst.rd] = cpu.pc + 4;
   cpu.pc = cpu.gpr[inst.rs1];
+  trace_append("jalr\t%s", regs[inst.rd]);
 });
 
 
 make_exec_handler(lui) ({
   cpu.gpr[inst.rd] = inst.U.imm_31_12 << 12;
+  trace_append("lui\t%s,%x", regs[inst.rd], inst.U.imm_31_12);
 });
 
 make_exec_handler(auipc) ({
   cpu.gpr[inst.rd] = cpu.pc + (inst.U.imm_31_12 << 12);
+  trace_append("auipc\t%s,%x", regs[inst.rd], inst.U.imm_31_12);
 });
 
 make_exec_handler(addi) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] + inst.I.simm_11_0;
+  trace_append("addi\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.simm_11_0);
 });
 
 make_exec_handler(slli) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] << inst.I.shamt;
+  trace_append("slli\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.shamt);
 });
 
 make_exec_handler(srli) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] >> inst.I.shamt;
+  trace_append("srli\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.shamt);
 });
 
 make_exec_handler(srai) ({
   cpu.gpr[inst.rd] = (int32_t)cpu.gpr[inst.rs1] >> inst.I.shamt;
+  trace_append("srai\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.shamt);
 });
 
 make_exec_handler(andi) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] & inst.I.simm_11_0;
+  trace_append("andi\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.simm_11_0);
 });
 
 make_exec_handler(ori) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] | inst.I.simm_11_0;
+  trace_append("ori\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.simm_11_0);
 });
 
 make_exec_handler(xori) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] ^ inst.I.simm_11_0;
+  trace_append("xori\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.simm_11_0);
 });
 
 make_exec_handler(sltiu) ({
   cpu.gpr[inst.rd] = cpu.gpr[inst.rs1] < inst.I.imm_11_0;
+  trace_append("sltiu\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.simm_11_0);
 });
 
 make_exec_handler(slti) ({
   cpu.gpr[inst.rd] = (int32_t)cpu.gpr[inst.rs1] < inst.I.simm_11_0;
+  trace_append("slti\t%s,%s,%d", regs[inst.rd], regs[inst.rs1], inst.I.simm_11_0);
 });
 
 
@@ -262,16 +292,19 @@ make_exec_handler(slti) ({
 make_exec_handler(sw) ({
   CHECK_ALIGNED_ADDR_AdES(4, cpu.gpr[inst.rs1] + STORE_SIMM);
   store_mem(cpu.gpr[inst.rs1] + STORE_SIMM, 4, cpu.gpr[inst.rs2]);
+  trace_append("sw\t%s,%d(%s)", regs[inst.rs2], STORE_SIMM, regs[inst.rs1]);
 });
 
 make_exec_handler(sh) ({
   CHECK_ALIGNED_ADDR_AdES(2, cpu.gpr[inst.rs1] + STORE_SIMM);
   store_mem(cpu.gpr[inst.rs1] + STORE_SIMM, 2, cpu.gpr[inst.rs2]);
+  trace_append("sh\t%s,%d(%s)", regs[inst.rs2], STORE_SIMM, regs[inst.rs1]);
 });
 
 make_exec_handler(sb) ({
   CHECK_ALIGNED_ADDR_AdES(1, cpu.gpr[inst.rs1] + STORE_SIMM);
   store_mem(cpu.gpr[inst.rs1] + STORE_SIMM, 1, cpu.gpr[inst.rs2]);
+  trace_append("sb\t%s,%d(%s)", regs[inst.rs2], STORE_SIMM, regs[inst.rs1]);
 });
 
 #undef STORE_SIMM
@@ -279,26 +312,31 @@ make_exec_handler(sb) ({
 make_exec_handler(lw) ({
   CHECK_ALIGNED_ADDR_AdEL(4, cpu.gpr[inst.rs1] + inst.I.simm_11_0);
   cpu.gpr[inst.rd] = load_mem(cpu.gpr[inst.rs1] + inst.I.simm_11_0, 4);
+  trace_append("lw\t%s,%d(%s)", regs[inst.rd], inst.I.simm_11_0, regs[inst.rs1]);
 });
 
 make_exec_handler(lb) ({
   CHECK_ALIGNED_ADDR_AdEL(1, cpu.gpr[inst.rs1] + inst.I.simm_11_0);
   cpu.gpr[inst.rd] = (int32_t)(int8_t)load_mem(cpu.gpr[inst.rs1] + inst.I.simm_11_0, 1);
+  trace_append("lb\t%s,%d(%s)", regs[inst.rd], inst.I.simm_11_0, regs[inst.rs1]);
 });
 
 make_exec_handler(lbu) ({
   CHECK_ALIGNED_ADDR_AdEL(1, cpu.gpr[inst.rs1] + inst.I.simm_11_0);
   cpu.gpr[inst.rd] = load_mem(cpu.gpr[inst.rs1] + inst.I.simm_11_0, 1);
+  trace_append("lbu\t%s,%d(%s)", regs[inst.rd], inst.I.simm_11_0, regs[inst.rs1]);
 });
 
 make_exec_handler(lh) ({
   CHECK_ALIGNED_ADDR_AdEL(2, cpu.gpr[inst.rs1] + inst.I.simm_11_0);
   cpu.gpr[inst.rd] = (int32_t)(int16_t)load_mem(cpu.gpr[inst.rs1] + inst.I.simm_11_0, 2);
+  trace_append("lh\t%s,%d(%s)", regs[inst.rd], inst.I.simm_11_0, regs[inst.rs1]);
 });
 
 make_exec_handler(lhu) ({
   CHECK_ALIGNED_ADDR_AdEL(2, cpu.gpr[inst.rs1] + inst.I.simm_11_0);
   cpu.gpr[inst.rd] = load_mem(cpu.gpr[inst.rs1] + inst.I.simm_11_0, 2);
+  trace_append("lhu\t%s,%d(%s)", regs[inst.rd], inst.I.simm_11_0, regs[inst.rs1]);
 });
 
 /* B-type */
